@@ -80,15 +80,15 @@ const validateField = (state, fieldName, fieldValue) => {
     ([validationKey, validationValue]) => {
       if (validationKey === 'min') {
         if (fieldValue.length < validationValue) {
-          valid &= false;
+          valid = valid && false;
         }
       }
       if (validationKey === 'email') {
-        valid &= validateEmail(fieldValue);
+        valid = valid && validateEmail(fieldValue);
       }
 
       if (validationKey === 'customSelect') {
-        valid &= validationValue !== state[fieldName].value.id;
+        valid = valid && validationValue !== state[fieldName].value.id;
       }
     }
   );
@@ -198,7 +198,7 @@ const useForm = () => {
         state[fieldName].value
       );
 
-      allFieldsValidStates &= fieldValidState;
+      allFieldsValidStates = allFieldsValidStates && fieldValidState;
 
       dispatch({
         type: 'isValid',

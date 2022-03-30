@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import { useForm } from './useForm';
 
 import CustomSelect from './CustomSelect';
@@ -27,6 +27,11 @@ export default function App() {
 
   //   console.log(newValObj);
   // };
+
+  // useEffect(() => {
+  //   const mappedValuesFromState = [...Object.entries(state).map(([fieldName, fieldObj]) => {})]
+  //   console.log('state updated');
+  // }, [state]);
 
   return (
     <div>
@@ -66,9 +71,11 @@ export default function App() {
           formState={state}
           dispatch={dispatch}
           activeOption={state.interest.value}
+          name="interest"
           onChange={(selectedOption) =>
             handleUpdateField(null, 'interest', selectedOption)
           }
+          handleValidateAllFields={handleValidateAllFields}
           validationCls={`${getFieldStateCls('interest')}`}
           options={state.interest.options}
         />

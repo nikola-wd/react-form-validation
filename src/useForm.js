@@ -76,20 +76,24 @@ const validateField = (state, fieldName, fieldValue) => {
   let valid = true;
   if (!state[fieldName].hasOwnProperty('validation')) return valid;
 
-  Object.entries(state[fieldName].validation).forEach(([key, val]) => {
-    if (key === 'min') {
-      if (fieldValue.length < val) {
-        valid &= false;
+  Object.entries(state[fieldName].validation).forEach(
+    ([validationKey, validationValue]) => {
+      if (validationKey === 'min') {
+        if (fieldValue.length < validationValue) {
+          valid &= false;
+        }
+      }
+      if (validationKey === 'email') {
+        valid &= validateEmail(fieldValue);
+      }
+
+      if (validationKey === 'customSelect') {
+        console.log('Custom select validation');
+        console.log(validationKey, validationValue);
+        valid &= validationValue !== state[fieldName].value.id;
       }
     }
-    if (key === 'email') {
-      valid &= validateEmail(fieldValue);
-    }
-
-    if (key === 'customSelect') {
-      console.log('Custom select validation');
-    }
-  });
+  );
   return !!valid;
 };
 

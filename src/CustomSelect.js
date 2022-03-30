@@ -1,11 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const CustomSelect = (props) => {
-  const { options, activeOption, onChange, validationCls, state, dispatch } =
-    props;
+  const {
+    options,
+    activeOption,
+    onChange,
+    validationCls,
+    handleValidateAllFields,
+    formState,
+    dispatch,
+    name,
+  } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const ddRef = useRef(null);
+
+  const customSelectValue = formState[name].value.label;
 
   const handleSelectNew = (optionObj) => {
     onChange(optionObj);
@@ -21,6 +31,11 @@ const CustomSelect = (props) => {
       setIsOpen(false);
     }
   };
+
+  useEffect(() => {
+    console.log('Custom Select Value Changed: ', customSelectValue);
+    handleValidateAllFields();
+  }, [customSelectValue]);
 
   return (
     <div>

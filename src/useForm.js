@@ -88,8 +88,6 @@ const validateField = (state, fieldName, fieldValue) => {
       }
 
       if (validationKey === 'customSelect') {
-        console.log('Custom select validation');
-        console.log(validationKey, validationValue);
         valid &= validationValue !== state[fieldName].value.id;
       }
     }

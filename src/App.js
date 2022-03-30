@@ -18,21 +18,6 @@ export default function App() {
     getFieldStateCls,
   } = useForm();
 
-  // const [activeSelectOption, setActiveSelectOption] = useState(
-  //   selectOptions[0]
-  // );
-
-  // const handleCustomSelectChange = (newValObj) => {
-  //   // TODO: Store in a hidden nput field
-
-  //   console.log(newValObj);
-  // };
-
-  // useEffect(() => {
-  //   const mappedValuesFromState = [...Object.entries(state).map(([fieldName, fieldObj]) => {})]
-  //   console.log('state updated');
-  // }, [state]);
-
   return (
     <div>
       {formDirty ? 'Form Dirty' : 'Form Not Dirty'}

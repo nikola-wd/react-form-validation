@@ -8,7 +8,6 @@ const CustomSelect = (props) => {
     validationCls,
     handleValidateAllFields,
     formState,
-    dispatch,
     name,
   } = props;
 
@@ -33,7 +32,6 @@ const CustomSelect = (props) => {
   };
 
   useEffect(() => {
-    console.log('Custom Select Value Changed: ', customSelectValue);
     handleValidateAllFields();
   }, [customSelectValue]);
 

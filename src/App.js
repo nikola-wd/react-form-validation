@@ -69,8 +69,12 @@ export default function App() {
           onChange={(selectedOption) =>
             handleUpdateField(null, 'interest', selectedOption)
           }
+          validationCls={`${getFieldStateCls('interest')}`}
           options={state.interest.options}
         />
+        <pre>
+          <code>{JSON.stringify(state.interest, null, 2)}</code>
+        </pre>
 
         <textarea
           value={state.message.value}

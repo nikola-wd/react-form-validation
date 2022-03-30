@@ -50,10 +50,10 @@ const initialFieldsStates = {
     options: selectOptions,
     value: selectOptions[0],
     validation: {
-      customSelect: {
-        not: 0,
-      },
+      customSelect: 0,
     },
+    dirty: false,
+    valid: true,
   },
   message: {
     value: '',
@@ -84,6 +84,10 @@ const validateField = (state, fieldName, fieldValue) => {
     }
     if (key === 'email') {
       valid &= validateEmail(fieldValue);
+    }
+
+    if (key === 'customSelect') {
+      console.log('Custom select validation');
     }
   });
   return !!valid;

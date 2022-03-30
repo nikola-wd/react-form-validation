@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const CustomSelect = (props) => {
-  const { options, activeOption, onChange, state, dispatch } = props;
+  const { options, activeOption, onChange, validationCls, state, dispatch } =
+    props;
 
   const [isOpen, setIsOpen] = useState(false);
   const ddRef = useRef(null);
@@ -23,10 +24,11 @@ const CustomSelect = (props) => {
 
   return (
     <div>
+      {('Validation Class: ', validationCls)}
       <div ref={ddRef} className={`dropdown ${isOpen ? 'show' : ''}`}>
         <button
           type="button"
-          className="dropdown-toggle"
+          className={`dropdown-toggle ${validationCls}`}
           onClick={() => setIsOpen((prevOpen) => !prevOpen)}
         >
           <span>{activeOption.label}</span>

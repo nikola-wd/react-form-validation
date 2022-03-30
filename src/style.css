@@ -1,0 +1,43 @@
+h1,
+p {
+  font-family: Lato;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input,
+textarea {
+  display: block;
+  width: 400px;
+  margin-bottom: 10px;
+  border: 2px solid #000;
+  min-height: 50px;
+  padding: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+[type='submit'] {
+  display: flex;
+  justify-content: center;
+  padding: 6px 15px;
+  background: #fff;
+  border: 2px solid #000;
+  width: 400px;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.2s ease-in-out;
+}
+[type='submit']:hover {
+  opacity: 0.8;
+}
+
+.error {
+  border-color: crimson;
+}

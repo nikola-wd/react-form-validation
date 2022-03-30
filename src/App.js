@@ -10,7 +10,7 @@ const initialFieldsStates = {
     },
     type: 'text',
     dirty: false,
-    valid: false,
+    valid: true,
   },
   email: {
     value: '',
@@ -21,7 +21,7 @@ const initialFieldsStates = {
       email: true,
     },
     dirty: false,
-    valid: false,
+    valid: true,
   },
   message: {
     value: '',
@@ -31,7 +31,7 @@ const initialFieldsStates = {
     },
     type: 'text',
     dirty: false,
-    valid: false,
+    valid: true,
   },
 };
 
@@ -96,6 +96,7 @@ const validationReducer = (state, action) => {
 export default function App() {
   const [state, dispatch] = useReducer(validationReducer, initialFieldsStates);
   const [formDirty, setFormDirty] = useState(false);
+  const [allFieldsValid, setAllFieldsValid] = useState(false);
 
   const getFieldStateCls = (fieldName) => {
     if (!formDirty && !state[fieldName].dirty) {
@@ -117,6 +118,10 @@ export default function App() {
     dispatch({ type: 'setAllDirty' });
 
     // If not all invalid, continue
+    if (!formDirty) {
+      handleValidateAllFields();
+    }
+    if (!allFieldsValid) return;
     alert('Continue now');
   };
 
@@ -128,22 +133,48 @@ export default function App() {
     dispatch({ type: 'update', name: e.target.name, value: e.target.value });
   };
 
-  const handleValidateField = (e) => {
-    dispatch({
-      type: 'isValid',
-      name: e.target.name,
-      isValid: validateField(state, e.target.name, e.target.value),
+  const handleValidateAllFields = () => {
+    let allFieldsValidStates = true;
+
+    Object.keys(state).forEach((fieldName) => {
+      let fieldValidState = validateField(
+        state,
+        fieldName,
+        state[fieldName].value
+      );
+
+      allFieldsValidStates &= fieldValidState;
+
+      dispatch({
+        type: 'isValid',
+        name: fieldName,
+        isValid: fieldValidState,
+      });
     });
+
+    setAllFieldsValid(!!allFieldsValidStates);
+    return !!allFieldsValidStates;
   };
+
+  // const handleValidateField = (e) => {
+  //   dispatch({
+  //     type: 'isValid',
+  //     name: e.target.name,
+  //     isValid: validateField(state, e.target.name, e.target.value),
+  //   });
+  // };
 
   return (
     <div>
+      {formDirty ? 'Form Dirty' : 'Form Not Dirty'}
+      <br />
+      {allFieldsValid ? 'All Fields Valid' : 'Not All Fields Valid'}
       <form onSubmit={tryFormSubmit} noValidate>
         <input
           type="text"
           value={state.name.value}
           onChange={handleUpdateField}
-          onKeyUp={handleValidateField}
+          onKeyUp={handleValidateAllFields}
           placeholder="Name"
           name="name"
           className={`${getFieldStateCls('name')}`}
@@ -156,7 +187,7 @@ export default function App() {
           type="email"
           value={state.email.value}
           onChange={handleUpdateField}
-          onKeyUp={handleValidateField}
+          onKeyUp={handleValidateAllFields}
           placeholder="Email"
           name="email"
           className={`${getFieldStateCls('email')}`}
@@ -168,7 +199,7 @@ export default function App() {
         <textarea
           value={state.message.value}
           onChange={handleUpdateField}
-          onKeyUp={handleValidateField}
+          onKeyUp={handleValidateAllFields}
           placeholder="Message"
           name="message"
           className={`${getFieldStateCls('message')}`}
@@ -178,6 +209,10 @@ export default function App() {
         </pre>
 
         <button type="submit">Submit</button>
+
+        {formDirty && !allFieldsValid && (
+          <h4>Please populate all the fields correctly and try again</h4>
+        )}
       </form>
     </div>
   );

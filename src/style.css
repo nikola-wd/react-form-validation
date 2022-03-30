@@ -41,3 +41,50 @@ textarea {
 .error {
   border-color: crimson;
 }
+
+.dropdown {
+  position: relative;
+  max-width: 400px;
+  margin-bottom: 30px;
+}
+
+.dropdown-toggle,
+.dropdown .option {
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 6px 15px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  height: 50px;
+}
+
+.dropdown .option {
+  min-height: 50px;
+}
+
+.dropdown-toggle:hover,
+.dropdown .option:hover,
+.dropdown .option.active {
+  background: #cecece;
+}
+
+.dropdown__content {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 10px);
+  width: 100%;
+  background: #cecece;
+}
+
+.dropdown .option:not(:last-of-type) {
+  margin-bottom: 4px;
+}
+
+.hidden {
+  display: none;
+}
+
+.block {
+  display: block;
+}

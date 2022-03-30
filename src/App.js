@@ -35,33 +35,26 @@ const initialFieldsStates = {
   },
 };
 
-const validateEmail = (email) => {
-  return String(email)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
+const validateEmail = (emailString) => {
+  var re = /\S+@\S+\.\S+/;
+  return re.test(emailString);
 };
 
-const validateField = (fieldName) => {
+const validateField = (state, fieldName, fieldValue) => {
   let valid = true;
   if (!state[fieldName].hasOwnProperty('validation')) return valid;
 
-  Object.entries(state[fieldName].validation).forEach(([key, valObj]) => {
+  Object.entries(state[fieldName].validation).forEach(([key, val]) => {
     if (key === 'min') {
-      if (valObj.value.length < key) {
+      if (fieldValue.length < val) {
         valid &= false;
       }
     }
     if (key === 'email') {
-      valid &= String(email)
-        .toLowerCase()
-        .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
+      valid &= validateEmail(fieldValue);
     }
   });
-  return valid;
+  return !!valid;
 };
 
 const validationReducer = (state, action) => {
@@ -87,6 +80,12 @@ const validationReducer = (state, action) => {
       updatedState[action.name] = {
         ...updatedState[action.name],
         value: action.value,
+      };
+      return { ...updatedState };
+    case 'isValid':
+      updatedState[action.name] = {
+        ...updatedState[action.name],
+        valid: action.isValid,
       };
       return { ...updatedState };
     default:
@@ -129,7 +128,13 @@ export default function App() {
     dispatch({ type: 'update', name: e.target.name, value: e.target.value });
   };
 
-  const handleValidateField = (e) => {};
+  const handleValidateField = (e) => {
+    dispatch({
+      type: 'isValid',
+      name: e.target.name,
+      isValid: validateField(state, e.target.name, e.target.value),
+    });
+  };
 
   return (
     <div>
@@ -138,6 +143,7 @@ export default function App() {
           type="text"
           value={state.name.value}
           onChange={handleUpdateField}
+          onKeyUp={handleValidateField}
           placeholder="Name"
           name="name"
           className={`${getFieldStateCls('name')}`}
@@ -150,6 +156,7 @@ export default function App() {
           type="email"
           value={state.email.value}
           onChange={handleUpdateField}
+          onKeyUp={handleValidateField}
           placeholder="Email"
           name="email"
           className={`${getFieldStateCls('email')}`}
@@ -161,6 +168,7 @@ export default function App() {
         <textarea
           value={state.message.value}
           onChange={handleUpdateField}
+          onKeyUp={handleValidateField}
           placeholder="Message"
           name="message"
           className={`${getFieldStateCls('message')}`}

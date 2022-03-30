@@ -164,12 +164,22 @@ const useForm = () => {
     alert('Continue now');
   };
 
-  const handleUpdateField = (e) => {
-    if (!formDirty && !state[e.target.name].dirty) {
-      dispatch({ type: 'setDirty', name: e.target.name });
+  const handleUpdateField = (e, fieldName = false, fieldValue = false) => {
+    let name, value;
+
+    if (e !== null) {
+      name = e.target.name;
+      value = e.target.value;
+    } else if (fieldName && fieldValue) {
+      name = fieldName;
+      value = fieldValue;
     }
 
-    dispatch({ type: 'update', name: e.target.name, value: e.target.value });
+    if (!formDirty && !state[name].dirty) {
+      dispatch({ type: 'setDirty', name: name });
+    }
+
+    dispatch({ type: 'update', name: name, value: value });
   };
 
   const handleValidateAllFields = () => {
@@ -197,6 +207,7 @@ const useForm = () => {
 
   return {
     state,
+    dispatch,
     formDirty,
     allFieldsValid,
     loading,

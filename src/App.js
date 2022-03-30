@@ -8,6 +8,7 @@ import './style.css';
 export default function App() {
   const {
     state,
+    dispatch,
     formDirty,
     allFieldsValid,
     loading,
@@ -17,9 +18,15 @@ export default function App() {
     getFieldStateCls,
   } = useForm();
 
-  const [activeSelectOption, setActiveSelectOption] = useState(
-    selectOptions[0]
-  );
+  // const [activeSelectOption, setActiveSelectOption] = useState(
+  //   selectOptions[0]
+  // );
+
+  // const handleCustomSelectChange = (newValObj) => {
+  //   // TODO: Store in a hidden nput field
+
+  //   console.log(newValObj);
+  // };
 
   return (
     <div>
@@ -27,7 +34,7 @@ export default function App() {
       <br />
       {allFieldsValid ? 'All Fields Valid' : 'Not All Fields Valid'}
       <br />
-      {activeSelectOption.label}
+      {state.interest.value.label}
       <form onSubmit={tryFormSubmit} noValidate>
         <input
           type="text"
@@ -56,9 +63,11 @@ export default function App() {
         </pre>
 
         <CustomSelect
+          formState={state}
+          dispatch={dispatch}
           activeOption={state.interest.value}
-          onSelectNew={(selectedOption) =>
-            setActiveSelectOption(selectedOption)
+          onChange={(selectedOption) =>
+            handleUpdateField(null, 'interest', selectedOption)
           }
           options={state.interest.options}
         />

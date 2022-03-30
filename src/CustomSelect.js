@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const CustomSelect = (props) => {
-  const { options, activeOption, onSelectNew } = props;
+  const { options, activeOption, onChange, state, dispatch } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const ddRef = useRef(null);
 
   const handleSelectNew = (optionObj) => {
-    onSelectNew(optionObj);
+    onChange(optionObj);
     setIsOpen(false);
   };
 

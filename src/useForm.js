@@ -1,5 +1,28 @@
 import React, { useState, useReducer } from 'react';
 
+const selectOptions = [
+  {
+    id: 0,
+    value: 'Select one option',
+    label: 'Select one option',
+  },
+  {
+    id: 1,
+    value: 'Have an engineering team, want to augment 🤘',
+    label: 'Have an engineering team, want to augment 🤘',
+  },
+  {
+    id: 2,
+    value: 'Looking for a standalone product team 🧑‍🚀',
+    label: 'Looking for a standalone product team 🧑‍🚀',
+  },
+  {
+    id: 3,
+    value: 'Still defining the team, looking for magic ⚡️',
+    label: 'Still defining the team, looking for magic ⚡️',
+  },
+];
+
 const initialFieldsStates = {
   name: {
     value: 'asdasdasd',
@@ -21,6 +44,16 @@ const initialFieldsStates = {
     },
     dirty: false,
     valid: true,
+  },
+  interest: {
+    type: 'custom-select',
+    options: selectOptions,
+    value: selectOptions[0],
+    validation: {
+      customSelect: {
+        not: 0,
+      },
+    },
   },
   message: {
     value: '',

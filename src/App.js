@@ -3,25 +3,6 @@ import { useForm } from './useForm';
 
 import CustomSelect from './CustomSelect';
 
-const selectOptions = [
-  {
-    value: 'Select one option',
-    label: 'Select one option',
-  },
-  {
-    value: 'Have an engineering team, want to augment 🤘',
-    label: 'Have an engineering team, want to augment 🤘',
-  },
-  {
-    value: 'Looking for a standalone product team 🧑‍🚀',
-    label: 'Looking for a standalone product team 🧑‍🚀',
-  },
-  {
-    value: 'Still defining the team, looking for magic ⚡️',
-    label: 'Still defining the team, looking for magic ⚡️',
-  },
-];
-
 import './style.css';
 
 export default function App() {
@@ -45,6 +26,8 @@ export default function App() {
       {formDirty ? 'Form Dirty' : 'Form Not Dirty'}
       <br />
       {allFieldsValid ? 'All Fields Valid' : 'Not All Fields Valid'}
+      <br />
+      {activeSelectOption.label}
       <form onSubmit={tryFormSubmit} noValidate>
         <input
           type="text"
@@ -73,11 +56,11 @@ export default function App() {
         </pre>
 
         <CustomSelect
-          activeOption={activeSelectOption}
+          activeOption={state.interest.value}
           onSelectNew={(selectedOption) =>
             setActiveSelectOption(selectedOption)
           }
-          options={selectOptions}
+          options={state.interest.options}
         />
 
         <textarea
